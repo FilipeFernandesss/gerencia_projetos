@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Atividades</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+</head>
+<body>
+    <h4>Atividades</h4>
+    <a class="btn btn-primary" href="/" role="button" style="float:right">Sair</a>
+    
+    <table class="table"> 
+        <tr>  
+            <th>Nome da Atividade</th>
+            <th>Descrição</th>
+            <th>Data de Início</th>
+            <th>Data de Término</th>
+            <th>Concluído</th>
+            <th>Alterar Status</th>
+            <th></th>
+        </tr>
+        {%for atividade in atividades%}
+            <tr>
+                <td>{{atividade[2]}}</td>
+                <td>{{atividade[3]}}</td>
+                <td>{{atividade[4]}}</td>
+                <td>{{atividade[5]}}</td>
+                <td>{{atividade[6]}}</td>               
+                <td><a class="btn btn-warning" id="btn_status" href="/func/alter_status/{{atividade[1]}}/{{atividade[0]}}" role="button">Alterar</a></td>
+                                
+            </tr>
+        {%endfor%}
+    </table> 
+
+</body>
+</html>

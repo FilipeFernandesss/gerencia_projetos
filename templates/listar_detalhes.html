@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+   
+</head>
+<body>
+    <h4><a href="/grt/{{id}}">Projetos</a></h4>
+
+    <a class="btn btn-danger btn-lg" href="/grt/form_ativ/{{id}}/{{id_projeto}}" role="button" style="float:left">Inserir Atividade</a> <br><br><br>
+    
+    <table class="table"> 
+        <tr>  
+            <th>Nome da Atividade</th>
+            <th>Descrição</th>
+            <th>Data de Início</th>
+            <th>Data de Término</th>
+            <th>Responsável</th>
+            <th>Concluído</th>
+            <th>Alterar Responsável</th>
+            <th>Alterar Status</th>
+            <th>Deletar</th>
+            <th></th>
+        </tr>
+        {%for detalhe in detalhes%}
+            <tr>
+                <td>{{detalhe[0]}}</td>
+                <td>{{detalhe[1]}}</td>
+                <td>{{detalhe[2]}}</td>
+                <td>{{detalhe[3]}}</td>
+                <td>{{detalhe[4]}}</td>
+                <td>{{detalhe[5]}}</td>
+                <td><a class="btn btn-warning" href="/grt/alt_func/{{id}}/{{id_projeto}}/{{detalhe[4]}}/{{detalhe[6]}}" role="button">Alterar</a></td>
+                <td><a class="btn btn-warning" id="btn_status" href="/grt/{{id}}/{{id_projeto}}/{{detalhe[6]}}" role="button">Alterar</a></td>
+                <td><a class="btn btn-danger" href="/grt/excluir_ativ/{{id}}/{{id_projeto}}/{{detalhe[6]}}" role="button">Delete</a></td>
+
+
+               
+            </tr>
+        {%endfor%}
+    </table> 
+
+</body>
+</html>

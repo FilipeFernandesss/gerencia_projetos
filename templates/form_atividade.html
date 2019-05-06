@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário Atividade</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+</head>
+<body>
+    <form action='/grt/insert_ativ/{{id_gerente}}/{{id_projeto}}' method="post" style="width:400px;
+    padding: 40px;
+    position: absolute;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f2f2f2;
+    text-align: center;">
+        <div class="form-group">
+            <label >Nome</label><br>
+            <input type="text" class="form-control" placeholder="Nome da atividade" required name="nome_atividade" required>
+        </div>
+
+        <div class="form-group">
+            <label >Descrição da atividade</label>
+            <textarea class="form-control" rows=5 name='descricao'></textarea>
+        </div>
+
+        <div class="form-group">
+            <datalist id="fun">
+                {%for func in funcionarios%}
+                    <option value={{func[0]}}></option>
+                {% endfor%}
+            </datalist>
+            <label >Funcionário</label>
+            <input class="form-control" placeholder="Escolha o responsável" name="fun" required list="fun">
+        </div>
+
+        <div class="form-group">
+            <label >Data de Início</label>
+            <input type="date" class="form-control" name="data_inicio" required >
+        </div>
+
+        <div class="form-group">
+            <label >Data de Fim</label>
+            <input type="date" class="form-control" name="data_fim" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Inserir</button>
+    </form>
+
+</body>
+</html>
