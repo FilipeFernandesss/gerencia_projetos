@@ -4,48 +4,83 @@
         <meta charset="utf-8">
         <title>Administrador</title>
 
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style_projetos.css') }}">
 
     </head>
     <body>
-        <h2>Lista de Gerentes</h2>
-        <a class="btn btn-primary" href="/" role="button" style="float:right">Sair</a>
-        <table class="table">
-            <tr>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Perfil</th>
-            </tr>
-            {%for gerente in gerentes%}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <div class="container"> 
+                    <a class="navbar-brand h1 mb-0" href="#">Lista de Pessoas</a>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="btn btn-light" id="btn-sair" href="/">Sair</a>
+                        </li>
+        
+                    </ul>
+                </div>
+            </nav>
+
+        <h3 class="text-center">Lista de Gerentes</h3>
+        
+        <div class="container">
+            <table class="table">
                 <tr>
-                    <td>{{gerente[0]}}</td>
-                    <td>{{gerente[1]}}</td>
-                    <td><a href="/adm/perfilg/{{gerente[2]}}">Perfil</a></td>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Perfil</th>
                 </tr>
-            {%endfor%}
-        </table>
+                {%for gerente in gerentes%}
+                    <tr>
+                        <td>{{gerente[0]}}</td>
+                        <td>{{gerente[1]}}</td>
+                        <td><a href="/adm/perfilg/{{gerente[2]}}">Perfil</a></td>
+                    </tr>
+                {%endfor%}
+            </table>
+        </div>
         <br>
-        <h2>Lista de Funcionários</h2>
-        <table class="table">
-            <tr>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Perfil</th>
-            </tr>
-            {%for funcionario in funcionarios%}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+            <div class="container"> 
+    
+                <a class="navbar-brand h1 mb-0" href="/grt/{{id}}"></a>
+    
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSite">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse" id="navbarSite">
+    
+                    
+                </div>
+            </div>
+        </nav> 
+
+        <h3 class="text-center">Lista de Funcionários</h3>
+        <div class="container">
+            <table class="table">
                 <tr>
-                    <td>{{funcionario[0]}}</td>
-                    <td>{{funcionario[1]}}</td>
-                    <td><a href="/adm/perfilf/{{funcionario[2]}}">Perfil</a></td>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Perfil</th>
                 </tr>
-            {%endfor%}
-        </table> <br>
+                {%for funcionario in funcionarios%}
+                    <tr>
+                        <td>{{funcionario[0]}}</td>
+                        <td>{{funcionario[1]}}</td>
+                        <td><a href="/adm/perfilf/{{funcionario[2]}}">Perfil</a></td>
+                    </tr>
+                {%endfor%}
+            </table> <br>
+        </div>
 
-        <a class="btn btn-primary" href="/adm/insert" target="_self" role="button">Inserir Gerente/Funcionário</a>
+        <h3 class="text-center"><a class="btn btn-dark" href="/adm/insert" target="_self" role="button">Inserir Gerente/Funcionário</a></h3>
 
-        <a></a>
-
+        
+        <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
     </body>
 </html>

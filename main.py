@@ -3,6 +3,7 @@ from flaskext.mysql import MySQL
 from bd import *
 
 app = Flask(__name__)
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 mysql = MySQL()
 

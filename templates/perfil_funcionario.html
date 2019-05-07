@@ -4,29 +4,48 @@
     <meta charset="UTF-8">
     <title>Perfil | {{nome}}</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_projetos.css') }}">
 </head>
-<body>
-    <table class="table">
-        <tr>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Número de Contato</th>
-            <th>Data de Nascimento</th>
-            <th>CPF</th>
-        </tr>
-        {%for list in perfil%}
-            <tr>
-                <td>{{list[0]}}</td>
-                <td>{{list[1]}}</td>
-                <td>{{list[2]}}</td>
-                <td>{{list[3]}}</td>
-                <td>{{list[4]}}</td>
-            </tr>
-        {%endfor%}
-    </table>
+<body style="background-color: #f1f0f0;">
 
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container"> 
+            <a class="navbar-brand h1 mb-0" href="/adm">Perfil {{nome}}</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="btn btn-light" id="btn-sair" href="/">Sair</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <table class="table">
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Número de Contato</th>
+                <th>Data de Nascimento</th>
+                <th>CPF</th>
+            </tr>
+            {%for list in perfil%}
+                <tr>
+                    <td>{{list[0]}}</td>
+                    <td>{{list[1]}}</td>
+                    <td>{{list[2]}}</td>
+                    <td>{{list[3]}}</td>
+                    <td>{{list[4]}}</td>
+                </tr>
+            {%endfor%}
+        </table>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
 </body>
 </html>

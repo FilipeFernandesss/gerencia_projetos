@@ -1,0 +1,13 @@
+body {background-color: #f1f0f0;}
+
+#btn-sair {
+    position: fixed;
+    right: 11%;
+}
+
+.container {
+    padding-right: 1px;
+    padding-left: 1px;
+    margin-right: auto;
+    margin-left: auto;
+}

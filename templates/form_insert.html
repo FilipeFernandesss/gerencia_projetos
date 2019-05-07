@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <title>Inserindo</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_projetos.css') }}">
+
 </head>
-<body>
+<body style="background-color: #f1f0f0;">
     <form action='/adm/inserted' method="post" style="width:400px;
     padding: 40px;
     position: absolute;
     top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #f2f2f2;
+    background: #b4b3b3;
     text-align: center;">
         <div class="form-group">
             <label >UserName</label><br>
@@ -64,6 +65,10 @@
 
         <button type="submit" class="btn btn-primary">Inserir</button>
     </form>
+    
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
 
 </body>
 </html>
