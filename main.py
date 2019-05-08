@@ -13,9 +13,11 @@ app.config['MYSQL_DATABASE_USER'] = "root"
 app.config['MYSQL_DATABASE_PASSWORD'] = ""
 app.config['MYSQL_DATABASE_DB'] = "gerencia_projetos"
 
+
 @app.route("/")
 def index():
     return render_template("index.html")
+
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -29,8 +31,6 @@ def login():
         login_adm = validar_login_adm(cursor,user_name, password)
         login_gerente = validar_login_gerente(cursor,user_name, password)
         login_funcionario = validar_login_funcionario(cursor,user_name, password)
-
-
 
         cursor.close()
         conn.close()
@@ -58,13 +58,13 @@ def listar_todos():
     return render_template("listar_pessoas.html", gerentes=gerentes, funcionarios=funcionarios)
 
 
-#Rota para o formulário de inserção
+# Rota para o formulário de inserção
 @app.route("/adm/insert")
 def inserir():
     return render_template("form_insert.html")
 
 
-#Rota para inserir
+# Rota para inserir
 @app.route("/adm/inserted", methods=["GET", "POST"])
 def inserindo():
     if request.method == "POST":
@@ -77,27 +77,27 @@ def inserindo():
         cpf = request.form["cpf"]
         cargo = request.form["opcao"]
 
-        #Conectando no myslq e criando cursor
+        # Conectando no myslq e criando cursor
         conn = mysql.connect()
         cursor = conn.cursor()
 
-        #Chamando função para inserir
+        # Chamando função para inserir
         if cargo == 'Funcionário':
             insert_funcionario(cursor, conn, username, password, nome, email, numero_contato, data_nascimento, cpf)
         else:
             insert_gerente(cursor, conn, username, password, nome, email, numero_contato, data_nascimento, cpf)
 
-        #Fechando a conexão e o cursor
+        # Fechando a conexão e o cursor
         cursor.close()
         conn.close()
 
-        #return para lista
+        # return para lista
         return redirect(url_for('listar_todos'))
     else:
         return redirect(url_for("inserir"))
 
 
-#Função para mostrar o perfil gerente
+# Função para mostrar o perfil gerente
 @app.route("/adm/perfilg/<int:id>")
 def perfil_gerente(id):
     conn = mysql.connect()
@@ -110,7 +110,8 @@ def perfil_gerente(id):
 
     return render_template("perfil_gerente.html", perfil=perfil, nome=nome)
 
-#Função para mostar o perfil funcionario
+
+# Função para mostar o perfil funcionario
 @app.route("/adm/perfilf/<int:id>")
 def perfil_funcionario(id):
     conn = mysql.connect()
@@ -127,7 +128,7 @@ def perfil_funcionario(id):
 ####FIM DAS FUNÇÕES ADM###
 ####FUNÇÕES DO GERENTE####
 
-#Rota para listar os projetos do gerente
+# Rota para listar os projetos do gerente
 @app.route('/grt/<id>')
 def listar_projetos(id):
     conn = mysql.connect()
@@ -139,7 +140,7 @@ def listar_projetos(id):
     return render_template("listar_projetos.html", projetos=projetos, id=id)
 
 
-#Rota para listar os detalhes do projeto
+# Rota para listar os detalhes do projeto
 @app.route("/grt/dtl/<int:id>/<int:id_projeto>")
 def listar_detalhes(id,id_projeto):
     conn = mysql.connect()
@@ -156,7 +157,8 @@ def listar_detalhes(id,id_projeto):
 
     return render_template("listar_detalhes.html", detalhes=detalhes, id=id, func=funcionario, id_projeto=id_projeto)
 
-#Rota para alterar o funcionário
+
+# Rota para alterar o funcionário
 @app.route("/grt/alt_func/<id>/<id_projeto>/<func>/<id_atividade>")
 def alterar_funcionario(id,id_projeto,func, id_atividade):
     conn = mysql.connect()
@@ -167,11 +169,13 @@ def alterar_funcionario(id,id_projeto,func, id_atividade):
     cursor.close()
     conn.close()
 
-    return render_template("form_alt.html", funcionarios=funcionarios, func=func, id_projeto=id_projeto, id=id, id_atividade=id_atividade)
+    return render_template("form_alt.html", funcionarios=funcionarios, func=func, id_projeto=id_projeto, id=id,
+                           id_atividade=id_atividade)
 
-#Rota para aplicar a alteração
+
+# Rota para aplicar a alteração
 @app.route("/grt/alter/<id>/<int:id_projeto>/<func>/<id_atividade>", methods=["GET", "POST"])
-def aplicar_alteracao(id,id_projeto,func, id_atividade):
+def aplicar_alteracao(id, id_projeto,func, id_atividade):
     if request.method == 'POST':
         funcionario = request.form['fun']
 
@@ -187,7 +191,8 @@ def aplicar_alteracao(id,id_projeto,func, id_atividade):
 
         return redirect(url_for("listar_detalhes", id=id, id_projeto=id_projeto))
 
-#Rota para mudar o status da atividade
+
+# Rota para mudar o status da atividade
 @app.route("/grt/<id>/<int:id_projeto>/<id_atividade>")
 def alter_status(id,id_projeto, id_atividade):
     print(id, id_projeto, id_atividade)
@@ -202,7 +207,7 @@ def alter_status(id,id_projeto, id_atividade):
     return redirect(url_for("listar_detalhes", id=id, id_projeto=id_projeto))
 
 
-#Rota para formulario de inserir atividade
+# Rota para formulario de inserir atividade
 @app.route("/grt/form_ativ/<id_gerente>/<id_projeto>")
 def form_atividade(id_gerente ,id_projeto):
     conn = mysql.connect()
@@ -216,7 +221,7 @@ def form_atividade(id_gerente ,id_projeto):
     return render_template("form_atividade.html", funcionarios=funcionarios, id_projeto=id_projeto, id_gerente=id_gerente)
 
 
-#Rota para inserir uma nova atividade
+# Rota para inserir uma nova atividade
 @app.route("/grt/insert_ativ/<id_gerente>/<id_projeto>", methods=['GET', 'POST'])
 def insert_atividade(id_gerente,id_projeto):
     if request.method == 'POST':
@@ -227,7 +232,6 @@ def insert_atividade(id_gerente,id_projeto):
         data_fim = request.form['data_fim']
 
         print(nome_atividade, '-',descricao, '-', funcionario, '-', data_inicio , '-', data_fim)
-
 
         conn = mysql.connect()
         cursor = conn.cursor()
@@ -240,7 +244,7 @@ def insert_atividade(id_gerente,id_projeto):
         return redirect(url_for("listar_detalhes", id=id_gerente, id_projeto=id_projeto))
 
 
-#Rota para excluir uma atividade
+# Rota para excluir uma atividade
 @app.route("/grt/excluir_ativ/<id_gerente>/<id_projeto>/<id_atividade>")
 def excluir_atividade(id_gerente,id_projeto,id_atividade):
 
@@ -254,11 +258,35 @@ def excluir_atividade(id_gerente,id_projeto,id_atividade):
 
     return redirect(url_for("listar_detalhes", id=id_gerente, id_projeto=id_projeto))
 
+
+# Rota para o form de inserir projeto
+@app.route("/grt/formProj/<id_gerente>")
+def form_insert_projeto(id_gerente):
+    return render_template("inserir_projeto.html", id_gerente=id_gerente)
+
+# Rota para inserir um projeto
+@app.route("/grt/insert_projeto/<id_gerente>", methods=['GET', 'POST'])
+def inserir_projeto(id_gerente):
+    if request.method == 'POST':
+        nome_projeto = request.form['name_project']
+        data_inicio = request.form['data_inicio']
+        data_fim = request.form['data_fim']
+
+        conn = mysql.connect()
+        cursor = conn.cursor()
+
+        inserir_projeto1(cursor, conn, id_gerente, nome_projeto, data_inicio, data_fim)
+
+        projetos = get_projetos(cursor, id_gerente)
+
+        return redirect(url_for("listar_projetos", projetos=projetos, id=id_gerente))
+
+
 #######Fim das funções do gerente#######
 ######Início das funções do funcionário########
 
 
-#Rota para listar as atividades do funcionário
+# Rota para listar as atividades do funcionário
 @app.route("/func/<id_funcionario>")
 def listar_atividades_funcionario(id_funcionario):
     conn = mysql.connect()
@@ -281,7 +309,6 @@ def alterar_status_funcionario(id_atividade, id_funcionario):
     alter_status_atividade_funcionario(cursor, conn, id_funcionario, id_atividade)
 
     return redirect(url_for("listar_atividades_funcionario", id_funcionario=id_funcionario))
-
 
 
 if __name__ == "__main__":
