@@ -76,16 +76,34 @@ def get_projetos(cursor, id):
     id_projeto = []
     cursor.execute(f'Select nome, data_inicio, data_fim, id_projeto from projetos where id_gerente = "{id}";')
     projetos = cursor.fetchall()
-
     for id in projetos:
         id_projeto.append(id[3])
 
-    return projetos
+    return projetos, id_projeto
 
 # Função para detalhar o projeto
 def get_detalhes(cursor, id_projeto):
-    cursor.execute(f'SELECT A.nome, A.descricao, A.data_inicio, A.data_fim , F.Nome, A.concluido, A.id_atividade FROM gerencia_projetos.atividades A, gerencia_projetos.info_funcionario F, gerencia_projetos.projetos P where A.id_funcionario = F.id_funcionario and P.id_projeto = "{id_projeto}" and A.id_projeto = P.id_projeto ORDER BY A.id_atividade ASC;')
+    cursor.execute(f'SELECT A.nome, A.descricao, A.data_inicio, A.data_fim , F.Nome, A.concluido, A.id_atividade '
+                   f'FROM gerencia_projetos.atividades A, gerencia_projetos.info_funcionario F, gerencia_projetos.projetos P '
+                   f'where A.id_funcionario = F.id_funcionario and P.id_projeto = "{id_projeto}" and A.id_projeto = P.id_projeto ORDER BY A.id_atividade ASC;')
     detalhes = cursor.fetchall()
+    concluido_zero = []
+    for con in detalhes:
+
+        if con[5] == 0:
+            concluido_zero.append(con)
+        else:
+            pass
+
+    return concluido_zero
+
+
+def get_todas_atividades(cursor, id_projeto):
+    cursor.execute(f'SELECT A.nome, A.descricao, A.data_inicio, A.data_fim , F.Nome, A.concluido, A.id_atividade '
+                   f'FROM gerencia_projetos.atividades A, gerencia_projetos.info_funcionario F, gerencia_projetos.projetos P '
+                   f'where A.id_funcionario = F.id_funcionario and P.id_projeto = "{id_projeto}" and A.id_projeto = P.id_projeto ORDER BY A.concluido DESC ;')
+    detalhes = cursor.fetchall()
+
     return detalhes
 
 # Função para recuperar o nome de todos os funcionarios.
@@ -99,14 +117,14 @@ def get_nome_funcionarios(cursor):
 def alter_funcionario(cursor, conn, id_projeto, nome_funcionario, func, id_atividade):
     cursor.execute(f'SELECT id_funcionario from info_funcionario where Nome="{nome_funcionario}";')
     id_func = cursor.fetchone()
-    print(id_func[0])
+
     cursor.execute(f'update atividades set id_funcionario = "{id_func[0]}" where id_projeto = "{id_projeto}" and id_atividade = "{id_atividade}";')
     conn.commit()
 
 
 # Função apra alter o status da atividade
-def alter_status_atividade(cursor, conn, id_projeto, id_0atividade):
-    cursor.execute(f'update atividades set concluido = 0 where id_projeto = "{id_projeto}" and id_atividade = "{id_atividade}";')
+def alter_status_atividade(cursor, conn, id_projeto, id_atividade):
+    cursor.execute(f'update atividades set concluido = 1 where id_projeto = "{id_projeto}" and id_atividade = "{id_atividade}";')
     conn.commit()
 
 # Função para inserir uma nova atividade
@@ -147,11 +165,56 @@ def inserir_projeto1(cursor, conn, id_gerente, nome_projeto, data_inicio, data_f
     conn.commit()
 
 
-# Função para retornar a quantidade de atividades
-def get_count_atividades(cursor):
-    cursor.execute(f'select count(A.id_atividade) from atividades A, projetos P where A.id_projeto = 1 and A.id_projeto = P.id_projeto;')
-    quantidade = cursor.fetchone()
-    return quantidade
+# Função para retornar a quantidade de atividades *funcao inuytilizada
+def get_count_atividades(cursor, id_projetos):
+    quantidade_atividades = []
+    qtd_ati = []
+    for id_projeto in id_projetos:
+        cursor.execute(f'select count(A.id_atividade) from atividades A, projetos P '
+                       f'where A.id_projeto = "{id_projeto}" and A.id_projeto = P.id_projeto;')
+        quantidade = cursor.fetchone()
+        quantidade_atividades.append(quantidade)
 
 
+    for qtd in quantidade_atividades:
 
+        qtd_ati.append(qtd[0])
+
+
+    return qtd_ati
+
+
+def get_count(cursor, id_projeto):
+
+    cursor.execute(f'select count(A.id_atividade) from atividades A, projetos P '
+                   f'where A.id_projeto = "{id_projeto}" and A.id_projeto = P.id_projeto;')
+
+    qtd = cursor.fetchone()
+    return qtd[0]
+
+
+def excluir_projeto1(cursor, conn, id_projeto):
+    cursor.execute(f'DELETE FROM `gerencia_projetos`.`projetos` WHERE (`id_projeto` = "{id_projeto}");')
+    conn.commit()
+
+
+def get_count_func(cursor, id_funcionario):
+    cursor.execute(f'SELECT COUNT(id_funcionario) FROM atividades A, projetos P where id_funcionario = "{id_funcionario}" and A.id_projeto = P.id_projeto;')
+    qtd = cursor.fetchone()
+    return qtd[0]
+
+
+def get_count_ger(cursor, id_gerente):
+    cursor.execute(f'SELECT COUNT(id_gerente) FROM  projetos  where id_gerente = "{id_gerente}";')
+    qtd = cursor.fetchone()
+    return qtd[0]
+
+
+def delete_funcionario1(cursor, conn, id_funcionario):
+    cursor.execute(f'DELETE FROM `gerencia_projetos`.`info_funcionario` WHERE (`id_funcionario` = "{id_funcionario}");')
+    conn.commit()
+
+
+def delete_gerente1(cursor, conn, id_gerente):
+    cursor.execute(f'DELETE FROM `gerencia_projetos`.`info_gerente` WHERE (`id_gerente` = "{id_gerente}");')
+    conn.commit()

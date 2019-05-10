@@ -105,10 +105,12 @@ def perfil_gerente(id):
     perfil = get_perfil_gerente(cursor, id)
     nome = perfil[0][0]
 
+    qtd_projetos = get_count_ger(cursor, id)
+
     cursor.close()
     conn.close()
 
-    return render_template("perfil_gerente.html", perfil=perfil, nome=nome)
+    return render_template("perfil_gerente.html", perfil=perfil, nome=nome, qtd_projetos=qtd_projetos, id=id)
 
 
 # Função para mostar o perfil funcionario
@@ -119,10 +121,40 @@ def perfil_funcionario(id):
     perfil = get_perfil_funcionario(cursor, id)
     nome = perfil[0][0]
 
+    qtd_atividades = get_count_func(cursor, id)
+
     cursor.close()
     conn.close()
 
-    return render_template("perfil_funcionario.html", perfil=perfil, nome=nome)
+    return render_template("perfil_funcionario.html", perfil=perfil, nome=nome, qtd_atividades=qtd_atividades, id=id)
+
+
+#Função para excluir o funcionario
+@app.route("/adm/delete_funci/<id_funcionario>")
+def delete_funcionario(id_funcionario):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    delete_funcionario1(cursor, conn, id_funcionario)
+
+    gerentes = get_gerentes(cursor)
+    funcionarios = get_funcionarios(cursor)
+
+    return redirect(url_for("listar_todos", gerentes=gerentes, funcionarios=funcionarios))
+
+
+#Função para excluir o gerente
+@app.route("/adm/delete_geren/<id_gerente>")
+def delete_gerente(id_gerente):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    delete_gerente1(cursor, conn, id_gerente)
+
+    gerentes = get_gerentes(cursor)
+    funcionarios = get_funcionarios(cursor)
+
+    return redirect(url_for("listar_todos", gerentes=gerentes, funcionarios=funcionarios))
 
 
 ####FIM DAS FUNÇÕES ADM###
@@ -133,13 +165,16 @@ def perfil_funcionario(id):
 def listar_projetos(id):
     conn = mysql.connect()
     cursor = conn.cursor()
-    projetos = get_projetos(cursor, id)
+    projetos = get_projetos(cursor, id)[0]
+    id_projetos = get_projetos(cursor, id)[1]
 
-    print(get_count_atividades(cursor)[0])
+    quantidade_atividades = get_count_atividades(cursor, id_projetos)
+
+    print(quantidade_atividades)
 
     cursor.close()
     conn.close()
-    return render_template("listar_projetos.html", projetos=projetos, id=id)
+    return render_template("listar_projetos.html", projetos=projetos, id=id, quantidade_atividades=quantidade_atividades)
 
 
 # Rota para listar os detalhes do projeto
@@ -149,6 +184,9 @@ def listar_detalhes(id,id_projeto):
     cursor = conn.cursor()
     detalhes = get_detalhes(cursor, id_projeto)
     funcionario = None
+
+    qtd_atividade = get_count(cursor, id_projeto)
+
     if len(detalhes) == 0:
         pass
     else:
@@ -157,7 +195,18 @@ def listar_detalhes(id,id_projeto):
     cursor.close()
     conn.close()
 
-    return render_template("listar_detalhes.html", detalhes=detalhes, id=id, func=funcionario, id_projeto=id_projeto)
+    return render_template("listar_detalhes.html", detalhes=detalhes, id=id, func=funcionario, id_projeto=id_projeto, qtd_atividades=qtd_atividade)
+
+
+# Rota para listar todas as atividades
+@app.route("/grt/list/<int:id>/<int:id_projeto>")
+def listar_todas_atividades(id, id_projeto):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    detalhes = get_todas_atividades(cursor, id_projeto)
+
+    return render_template("listar_todas_atividades.html", detalhes=detalhes, id=id, id_projeto=id_projeto)
 
 
 # Rota para alterar o funcionário
@@ -284,6 +333,18 @@ def inserir_projeto(id_gerente):
         return redirect(url_for("listar_projetos", projetos=projetos, id=id_gerente))
 
 
+# Rota para excluir um projeto
+@app.route("/grt/delete/<id_gerente>/<id_projeto>")
+def excluir_projeto(id_gerente,id_projeto):
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    excluir_projeto1(cursor, conn, id_projeto)
+
+    projetos = get_projetos(cursor, id_gerente)
+
+    return redirect(url_for("listar_projetos", projetos=projetos, id=id_gerente))
+
 #######Fim das funções do gerente#######
 ######Início das funções do funcionário########
 
@@ -295,11 +356,12 @@ def listar_atividades_funcionario(id_funcionario):
     cursor = conn.cursor()
 
     atividades = get_atividades_funcionario(cursor, id_funcionario)
+    qtd_atividades = get_count_func(cursor, id_funcionario)
 
     cursor.close()
     conn.close()
 
-    return render_template("listar_atividades_funcionario.html", atividades=atividades)
+    return render_template("listar_atividades_funcionario.html", atividades=atividades, qtd_atividades=qtd_atividades)
 
 
 # Rota para alterar o status da atividade

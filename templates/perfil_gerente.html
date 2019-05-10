@@ -6,18 +6,35 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_projetos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/detalhes_funcionario.css') }}">
 </head>
 <body style="background-color: #f1f0f0;">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container"> 
-            <a class="navbar-brand h1 mb-0" href="/adm">Perfil {{nome}}</a>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="btn btn-light" id="btn-sair" href="/">Sair</a>
-                </li>
 
-            </ul>
+        <div class="container"> 
+
+            <a class="navbar-brand h1 mb-0" href="/adm">Perfil {{nome}}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSite">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="navbarSite">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                
+                        {% if qtd_projetos == 0%}
+                            <a class="btn btn-danger" id="btn-delete" href="/adm/delete_geren/{{id}}" role="button">Excluir Gerente</a>
+                        {% else %}
+                            <a class="btn btn-link" id="btn-delete" role="button">Excluir Funcionário</a>
+                        {% endif %}    
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="btn btn-light" id="btn-sair" href="/">Sair</a>
+                    </li>
+
+                </ul>
+            </div>    
         </div>
     </nav>
     <div class="container">  

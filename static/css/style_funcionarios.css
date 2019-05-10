@@ -1,1 +1,15 @@
 body {background-color: #f1f0f0;}
+
+.btn btn-link {
+    pointer-events: none;
+}  
+
+#btn-sair {
+    position: fixed;
+    right: 11%;
+}
+
+#btn-delete {
+    position: fixed;
+    right: 20%;
+}

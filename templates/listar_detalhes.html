@@ -30,6 +30,15 @@
                     </li>
 
                     <li class="nav-item">
+                        
+                        {% if qtd_atividades == 0%}
+                            <a class="btn btn-danger" id="btn-delete" href="/grt/delete/{{id_projeto}}" role="button">Excluir Projeto</a>
+                        {% else %}
+                            <a class="btn btn-link" id="btn-delete" role="button">Excluir Projeto</a>
+                        {% endif %}    
+                    </li>
+
+                    <li class="nav-item">
                         <a class="btn btn-light" id="btn-sair" href="/">Sair</a>
                     </li>
                 </ul>
@@ -38,6 +47,7 @@
     </nav> 
     
     <div class="container">
+
         <table class="table"> 
             <tr>  
                 <th>Nome da Atividade</th>
@@ -67,6 +77,9 @@
             {%endfor%}
         </table> 
     </div>
+
+    <h3 class="text-center"><a class="btn btn-dark" href="/grt/list/{{id}}/{{id_projeto}}" target="_self" role="button">Visualizar todas as Atividades</a></h3>
+
 
     <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
