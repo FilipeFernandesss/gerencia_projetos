@@ -10,7 +10,7 @@ mysql = MySQL()
 mysql.init_app(app)
 
 app.config['MYSQL_DATABASE_USER'] = "root"
-app.config['MYSQL_DATABASE_PASSWORD'] = ""
+app.config['MYSQL_DATABASE_PASSWORD'] = "root"
 app.config['MYSQL_DATABASE_DB'] = "gerencia_projetos"
 
 
@@ -134,6 +134,8 @@ def listar_projetos(id):
     conn = mysql.connect()
     cursor = conn.cursor()
     projetos = get_projetos(cursor, id)
+
+    print(get_count_atividades(cursor)[0])
 
     cursor.close()
     conn.close()

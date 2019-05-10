@@ -73,8 +73,13 @@ def get_perfil_funcionario(cursor, id):
 
 # Função para recuperar os projetos de 1 gerente
 def get_projetos(cursor, id):
+    id_projeto = []
     cursor.execute(f'Select nome, data_inicio, data_fim, id_projeto from projetos where id_gerente = "{id}";')
     projetos = cursor.fetchall()
+
+    for id in projetos:
+        id_projeto.append(id[3])
+
     return projetos
 
 # Função para detalhar o projeto
@@ -100,7 +105,7 @@ def alter_funcionario(cursor, conn, id_projeto, nome_funcionario, func, id_ativi
 
 
 # Função apra alter o status da atividade
-def alter_status_atividade(cursor, conn, id_projeto, id_atividade):
+def alter_status_atividade(cursor, conn, id_projeto, id_0atividade):
     cursor.execute(f'update atividades set concluido = 0 where id_projeto = "{id_projeto}" and id_atividade = "{id_atividade}";')
     conn.commit()
 
@@ -140,4 +145,13 @@ def inserir_projeto1(cursor, conn, id_gerente, nome_projeto, data_inicio, data_f
     cursor.execute(f'insert into projetos (id_gerente, nome, data_inicio, data_fim) values '
                    f'("{id_gerente}", "{nome_projeto}", "{data_inicio}", "{data_fim}")')
     conn.commit()
+
+
+# Função para retornar a quantidade de atividades
+def get_count_atividades(cursor):
+    cursor.execute(f'select count(A.id_atividade) from atividades A, projetos P where A.id_projeto = 1 and A.id_projeto = P.id_projeto;')
+    quantidade = cursor.fetchone()
+    return quantidade
+
+
 

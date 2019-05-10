@@ -42,15 +42,15 @@
                 <th>Data de Início</th>
                 <th>Data de Término</th>
                 <th></th>
+                <th></th>
             </tr>
             {%for projeto in projetos%}
                 <tr>
                     <td>{{projeto[0]}}</td>
                     <td>{{projeto[1]}}</td>
                     <td>{{projeto[2]}}</td>
-
-
                     <td><a href="/grt/dtl/{{id}}/{{projeto[3]}}" target="_self">Detalhes</a></td>
+                    <td><a href="#" class="not-active">Excluir</a></td>
                 </tr>
             {%endfor%}
             </table>

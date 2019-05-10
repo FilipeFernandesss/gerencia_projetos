@@ -11,3 +11,10 @@ body {background-color: #f1f0f0;}
     margin-right: auto;
     margin-left: auto;
 }
+
+.not-active {
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+    color: black;
+  }
